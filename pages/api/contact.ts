@@ -1,4 +1,3 @@
-// pages/api/contact.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
 import nodemailer from 'nodemailer';
 
@@ -8,10 +7,39 @@ type ResponseData = {
   error?: string;
 };
 
+// Helper function to set CORS headers
+const setCorsHeaders = (res: NextApiResponse, origin?: string) => {
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'https://ronald-web-phi.vercel.app',
+    'https://ronald-*.vercel.app', // Wildcard for preview deployments
+  ];
+
+  // Check if the origin is allowed or use wildcard
+  const requestOrigin = origin || '';
+  const isAllowed = allowedOrigins.some(allowed => 
+    allowed.includes('*') ? true : allowed === requestOrigin
+  );
+
+  res.setHeader('Access-Control-Allow-Origin', isAllowed ? requestOrigin : allowedOrigins[0]);
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
+  // Set CORS headers
+  const origin = req.headers.origin;
+  setCorsHeaders(res, origin as string);
+
+  // Handle OPTIONS request (preflight)
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   // Only allow POST requests
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
@@ -42,8 +70,6 @@ export default async function handler(
     }
 
     console.log('Attempting to send email...');
-    console.log('Using email:', process.env.EMAIL_SERVER_USER);
-    console.log('To:', process.env.EMAIL_TO);
 
     // Create transporter
     const transporter = nodemailer.createTransport({
