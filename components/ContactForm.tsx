@@ -1,7 +1,6 @@
+"use client";
 
-'use client';
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 interface FormData {
   name: string;
@@ -11,19 +10,22 @@ interface FormData {
 
 const ContactForm = () => {
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    message: "",
   });
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -32,26 +34,46 @@ const ContactForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus('idle');
+    setSubmitStatus("idle");
+    setErrorMessage("");
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
+      // Use absolute URL for production
+      const isProduction = process.env.NODE_ENV === "production";
+      const baseUrl = isProduction
+        ? "https://ronald-a67iwarm7-ron199807s-projects.vercel.app"
+        : "http://localhost:3000";
+
+      const apiUrl = `${baseUrl}/api/contact`;
+
+      console.log("Sending to:", apiUrl);
+      console.log("Data:", formData);
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
+      console.log("Response status:", response.status);
+
+      // Parse response
+      const result = await response.json();
+      console.log("Response data:", result);
+
       if (response.ok) {
-        setSubmitStatus('success');
-        setFormData({ name: '', email: '', message: '' });
+        setSubmitStatus("success");
+        setFormData({ name: "", email: "", message: "" });
       } else {
-        setSubmitStatus('error');
+        setSubmitStatus("error");
+        setErrorMessage(result.error || `Error: ${response.status}`);
       }
-    } catch (error) {
-      setSubmitStatus('error');
-      console.error('Error submitting form:', error);
+    } catch (error: any) {
+      console.error("Network error:", error);
+      setSubmitStatus("error");
+      setErrorMessage("Network error. Please check your connection.");
     } finally {
       setIsSubmitting(false);
     }
@@ -112,16 +134,16 @@ const ContactForm = () => {
         disabled={isSubmitting}
         className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-300 disabled:bg-blue-400"
       >
-        {isSubmitting ? 'Sending...' : 'Send Message'}
+        {isSubmitting ? "Sending..." : "Send Message"}
       </button>
 
-      {submitStatus === 'success' && (
+      {submitStatus === "success" && (
         <div className="p-3 bg-green-100 text-green-700 rounded-lg">
           Message sent successfully! I'll get back to you soon.
         </div>
       )}
 
-      {submitStatus === 'error' && (
+      {submitStatus === "error" && (
         <div className="p-3 bg-red-100 text-red-700 rounded-lg">
           Failed to send message. Please try again or contact me directly.
         </div>
