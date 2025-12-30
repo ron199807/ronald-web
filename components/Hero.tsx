@@ -30,7 +30,7 @@ export default function Hero() {
         </div>
 
         <h1 className="text-4xl md:text-6xl font-bold mb-4">
-          Hi, I&aposm Ronald Mweema
+          Hi, I&aposM Ronald Mweema
         </h1>
         <p className="text-xl md:text-2xl mb-8">
           Frontend Developer | UI/UX Enthusiast
