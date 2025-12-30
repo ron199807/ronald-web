@@ -1,129 +1,105 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import nodemailer from 'nodemailer';
-
-type ResponseData = {
-  success: boolean;
-  message?: string;
-  error?: string;
-};
-
-// Helper function to set CORS headers
-const setCorsHeaders = (res: NextApiResponse, origin?: string) => {
-  const allowedOrigins = [
-    'http://localhost:3000',
-    'https://ronald-web-phi.vercel.app',
-    'https://ronald-*.vercel.app', // Wildcard for preview deployments
-  ];
-
-  // Check if the origin is allowed or use wildcard
-  const requestOrigin = origin || '';
-  const isAllowed = allowedOrigins.some(allowed => 
-    allowed.includes('*') ? true : allowed === requestOrigin
-  );
-
-  res.setHeader('Access-Control-Allow-Origin', isAllowed ? requestOrigin : allowedOrigins[0]);
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-};
+import { applyMiddleware, corsMiddleware } from '@/lib/middleware';
+import { rateLimiter } from '@/lib/rate-limiter';
+import { validateContactForm } from '@/lib/validation';
+import { createEmailService } from '@/lib/email';
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse
 ) {
-  // Set CORS headers
-  const origin = req.headers.origin;
-  setCorsHeaders(res, origin as string);
-
-  // Handle OPTIONS request (preflight)
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-
-  // Only allow POST requests
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).json({ 
-      success: false, 
-      error: `Method ${req.method} Not Allowed` 
-    });
-  }
-
   try {
-    const { name, email, message } = req.body;
+    // Apply CORS middleware
+    await applyMiddleware(req, res, corsMiddleware);
 
-    // Validate required fields
-    if (!name || !email || !message) {
-      return res.status(400).json({
+    // Only allow POST method
+    if (req.method !== 'POST') {
+      res.setHeader('Allow', ['POST']);
+      return res.status(405).json({
         success: false,
-        error: 'All fields are required',
+        error: `Method ${req.method} Not Allowed`,
       });
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({
+    // Get client IP for rate limiting
+    const clientIp = req.headers['x-forwarded-for'] as string || 
+                     req.socket.remoteAddress || 
+                     'unknown';
+    
+    // Apply rate limiting
+    const rateLimit = rateLimiter.check(clientIp);
+    if (!rateLimit.allowed) {
+      res.setHeader('X-RateLimit-Limit', '5');
+      res.setHeader('X-RateLimit-Remaining', rateLimit.remaining.toString());
+      res.setHeader('X-RateLimit-Reset', rateLimit.reset.toISOString());
+      
+      return res.status(429).json({
         success: false,
-        error: 'Invalid email format',
+        error: 'Too many requests. Please try again later.',
+        reset: rateLimit.reset.toISOString(),
       });
     }
 
-    console.log('Attempting to send email...');
+    // Validate request body
+    const validation = validateContactForm(req.body);
+    if (!validation.success) {
+      return res.status(400).json({
+        success: false,
+        error: 'Validation failed',
+        errors: validation.errors,
+      });
+    }
 
-    // Create transporter
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_SERVER_USER,
-        pass: process.env.EMAIL_SERVER_PASSWORD,
-      },
-    });
-
-    // Email options
-    const mailOptions = {
-      from: `Portfolio Contact <${process.env.EMAIL_FROM}>`,
-      to: process.env.EMAIL_TO,
-      subject: `New Contact from ${name} - Portfolio`,
-      html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px;">
-          <h2>New Contact Form Submission</h2>
-          <div style="background: #f5f5f5; padding: 20px; border-radius: 8px;">
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Message:</strong></p>
-            <div style="background: white; padding: 15px; border-radius: 4px; margin-top: 10px;">
-              ${message.replace(/\n/g, '<br>')}
-            </div>
-          </div>
-        </div>
-      `,
-      text: `New Contact Form Submission\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`,
-    };
+    // Initialize email service
+    const emailService = createEmailService();
+    
+    // Test connection first
+    const isConnected = await emailService.testConnection();
+    if (!isConnected) {
+      throw new Error('Email service not available');
+    }
 
     // Send email
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully:', info.messageId);
+    const messageId = await emailService.sendContactEmail(validation.data!);
 
+    // Set rate limit headers
+    res.setHeader('X-RateLimit-Limit', '5');
+    res.setHeader('X-RateLimit-Remaining', rateLimit.remaining.toString());
+    res.setHeader('X-RateLimit-Reset', rateLimit.reset.toISOString());
+
+    // Return success response
     return res.status(200).json({
       success: true,
       message: 'Email sent successfully!',
+      messageId,
+      timestamp: new Date().toISOString(),
     });
 
   } catch (error: any) {
-    console.error('Error sending email:', error);
-    
-    let errorMessage = 'Failed to send email';
-    
+    console.error('Contact API error:', error);
+
+    // Handle specific errors
     if (error.code === 'EAUTH') {
-      errorMessage = 'Email authentication failed. Check your credentials.';
-    } else if (error.code === 'EENVELOPE') {
-      errorMessage = 'Invalid email address provided.';
+      return res.status(500).json({
+        success: false,
+        error: 'Email authentication failed',
+      });
     }
 
+    if (error.code === 'EENVELOPE') {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid email address',
+      });
+    }
+
+    // Generic error
     return res.status(500).json({
       success: false,
-      error: errorMessage,
+      error: 'Internal server error',
+      ...(process.env.NODE_ENV === 'development' && {
+        details: error.message,
+      }),
     });
   }
 }
