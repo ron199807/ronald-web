@@ -1,5 +1,6 @@
-import Image from 'next/image';
-import SocialLinks from './SocialLinks';
+import Image from "next/image";
+import SocialLinks from "./SocialLinks";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -14,7 +15,7 @@ export default function Hero() {
           priority
         />
       </div>
-      
+
       <div className="container mx-auto px-6 text-center relative z-10">
         {/* Circular profile photo */}
         <div className="mx-auto mb-8 w-40 h-50 md:w-48 md:h-48 rounded-full overflow-hidden shadow-lg">
@@ -27,16 +28,23 @@ export default function Hero() {
             priority
           />
         </div>
-        
-        <h1 className="text-4xl md:text-6xl font-bold mb-4">Hi, I'm Ronald Mweema</h1>
-        <p className="text-xl md:text-2xl mb-8">Frontend Developer | UI/UX Enthusiast</p>
-        
+
+        <h1 className="text-4xl md:text-6xl font-bold mb-4">
+          Hi, I&aposm Ronald Mweema
+        </h1>
+        <p className="text-xl md:text-2xl mb-8">
+          Frontend Developer | UI/UX Enthusiast
+        </p>
+
         <div className="flex justify-center space-x-4 mb-8">
-          <SocialLinks iconSize="lg" className="text-white dark:text-white/90" />
+          <SocialLinks
+            iconSize="lg"
+            className="text-white dark:text-white/90"
+          />
         </div>
-        
+
         <button className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-200 transition cursor-pointer">
-          View My Work
+          <Link href="/projects">View My Work</Link>
         </button>
       </div>
     </section>

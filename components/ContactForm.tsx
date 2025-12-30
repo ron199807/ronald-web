@@ -1,3 +1,4 @@
+// components/ContactForm.tsx
 'use client';
 
 import { useState } from 'react';
@@ -21,24 +22,20 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitMessage('');
     
     try {
-      // Create FormData object
-      const formDataObj = new FormData();
-      formDataObj.append('name', formData.name);
-      formDataObj.append('email', formData.email);
-      formDataObj.append('message', formData.message);
-      
-      // For Netlify Forms
-      const response = await fetch('/', {
+      const response = await fetch('/api/send', {
         method: 'POST',
-        body: formDataObj,
         headers: {
-          'Accept': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (result.success) {
         setSubmitMessage('Thank you for your message! I will get back to you soon.');
         setFormData({ name: '', email: '', message: '' });
         
@@ -47,9 +44,10 @@ export default function ContactForm() {
           router.push('/');
         }, 2000);
       } else {
-        throw new Error('Network response was not ok');
+        throw new Error(result.error || 'Failed to send message');
       }
     } catch (error) {
+      console.error('Submission error:', error);
       setSubmitMessage('There was an error submitting your message. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -58,21 +56,7 @@ export default function ContactForm() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <form 
-        name="contact" 
-        method="POST" 
-        data-netlify="true" 
-        onSubmit={handleSubmit}
-        className="space-y-6"
-        netlify-honeypot="bot-field"
-      >
-        <input type="hidden" name="form-name" value="contact" />
-        <p className="hidden">
-          <label>
-            Don't fill this out if you're human: <input name="bot-field" />
-          </label>
-        </p>
-        
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Name

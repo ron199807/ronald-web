@@ -11,7 +11,7 @@ export default function AboutPage() {
           <h1 className="text-4xl font-bold text-center mb-8">About Me</h1>
           <div className="prose dark:prose-invert">
             <p>
-              I'm a passionate developer with experience in building web applications
+              I&aposm a passionate developer with experience in building web applications
               using modern technologies. My focus is on creating clean, efficient,
               and user-friendly interfaces.
             </p>

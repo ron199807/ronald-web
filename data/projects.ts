@@ -18,9 +18,9 @@ export const projects: Project[] = [
     description: "A responsive portfolio built with Next.js and Tailwind CSS featuring dark mode and project showcase.",
     tags: ["Next.js", "Tailwind CSS", "TypeScript"],
     imageUrl: "/assets/images/nextjs.jpeg",
-    projectUrl: "/projects/portfolio",
-    githubUrl: "https://github.com/yourusername/portfolio",
-    featured: true
+    projectUrl: "https://ronald-fonws3e5n-ron199807s-projects.vercel.app/",
+    githubUrl: "https://github.com/ron199807/ronald-web",
+    featured: false
   },
   {
     id: 2,
