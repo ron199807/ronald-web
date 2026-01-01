@@ -7,7 +7,7 @@ export default function ContactPage() {
     <>
       <Header />
       
-      <main className="min-h-screen py-16">
+      <main className="min-h-screen py-30">
         <div className="container mx-auto px-6 max-w-3xl">
           <h1 className="text-4xl font-bold text-center mb-8">Contact Me</h1>
           <ContactForm />

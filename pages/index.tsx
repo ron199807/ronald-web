@@ -148,7 +148,7 @@ export default function Home() {
         <meta property="og:type" content="website" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section>
+      <section className="fixed top-0 left-0 w-full z-50">
         <Header />
       </section>
       

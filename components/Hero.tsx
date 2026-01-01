@@ -215,7 +215,7 @@ export default function Hero() {
             {/* Profile image container */}
             <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/20 shadow-2xl">
               <Image
-                src="/assets/images/ronald1.png"
+                src="/assets/images/ronald.jpg"
                 alt="Ronald Mweema"
                 fill
                 className="object-cover scale-110"
