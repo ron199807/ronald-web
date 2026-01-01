@@ -260,7 +260,10 @@ export default function Hero() {
               className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto"
             >
               Crafting beautiful, responsive web experiences with modern technologies
-              and attention to detail
+              and attention to detail. <Link href="/about" className='group bg-transparent text-green-500 text-lg hover:text-green/10 transition-all duration-200'>
+              <span className='bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent py-1 px-2 rounded-full'>About me click here
+              </span>
+                </Link>
             </motion.p>
           </motion.div>
 

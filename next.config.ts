@@ -1,10 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  images: {
-    domains: ['vercel.app'],
-  },
+images: {
+  remotePatterns: [
+    {
+      protocol: 'https',
+      hostname: 'vercel.app',
+      pathname: '**',
+    },
+  ],
+},
   async headers() {
     return [
       {
