@@ -253,7 +253,16 @@ export default function Hero() {
               variants={itemVariants}
               className="text-xl md:text-2xl lg:text-3xl font-light text-white/90 mb-2"
             >
-              Frontend Developer & UI/UX Specialist
+              <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-16">
+              <h1 className="text-xl md:text-6xl font-bold mb-2 from-white/70">
+                Full-Stack Developer
+              </h1>
+              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                Specializing in Django, React, Next.js, and React Native to build performant, scalable applications
+              </p>
+              </div>
+            </div>
             </motion.p>
             <motion.p
               variants={itemVariants}
