@@ -1,9 +1,10 @@
 // components/SocialLinks.tsx
 import { socialLinks } from '../data/socialLinks';
 
-interface SocialLinksProps {
+export interface SocialLinksProps {
   className?: string;
   iconSize?: 'sm' | 'md' | 'lg';
+  hoverEffect?: 'scaleup' | 'colorchange' | 'slideup';
 }
 
 export default function SocialLinks({ className = '', iconSize = 'md' }: SocialLinksProps) {

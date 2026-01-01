@@ -4,11 +4,17 @@ export interface Project {
   id: number;
   title: string;
   description: string;
-  tags: string[];
   imageUrl: string;
   projectUrl: string;
   githubUrl?: string;
+  tags: string[];
   featured?: boolean;
+  category?: string;
+  date?: string;
+  stats?: {
+    stars?: number;
+    forks?: number;
+  };
 }
 
 export const projects: Project[] = [

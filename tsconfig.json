@@ -29,7 +29,6 @@
     },
     
     // Additional compiler options for better development experience
-    "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "moduleDetection": "force",
     "verbatimModuleSyntax": false,
