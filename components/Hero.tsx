@@ -249,11 +249,11 @@ export default function Hero() {
                 </span>
               </span>
             </h1>
-            <motion.p
+            <motion.div
               variants={itemVariants}
               className="text-xl md:text-2xl lg:text-3xl font-light text-white/90 mb-2"
             >
-              <div className="container mx-auto max-w-6xl">
+            <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-16">
               <h1 className="text-xl md:text-6xl font-bold mb-2 from-white/70">
                 Full-Stack Developer
@@ -263,7 +263,7 @@ export default function Hero() {
               </p>
               </div>
             </div>
-            </motion.p>
+            </motion.div>
             <motion.p
               variants={itemVariants}
               className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto"

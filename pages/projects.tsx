@@ -141,7 +141,7 @@ export default function ProjectsPage() {
         initial="initial"
         animate="animate"
         exit="exit"
-        className="min-h-screen py-8 md:py-16 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800"
+        className="min-h-screen py-20 md:py-16 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* Page Header */}
@@ -191,7 +191,7 @@ export default function ProjectsPage() {
               { label: 'Total Projects', value: projects.length },
               { label: 'Technologies', value: Array.from(new Set(projects.flatMap(p => p.tags))).length },
               { label: 'Featured', value: projects.filter(p => p.featured).length },
-              { label: 'Years Experience', value: '3+' },
+              { label: 'Years Experience', value: '5' },
             ].map((stat, index) => (
               <motion.div
                 key={stat.label}

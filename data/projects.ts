@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export interface Project {
   id: number;
   title: string;
@@ -7,6 +5,7 @@ export interface Project {
   imageUrl: string;
   projectUrl: string;
   githubUrl?: string;
+  backendUrl?: string;
   tags: string[];
   featured?: boolean;
   category?: string;
@@ -30,29 +29,31 @@ export const projects: Project[] = [
   },
   {
     id: 2,
-    title: "E-commerce Platform",
-    description: "Full-stack e-commerce application with product listings, cart functionality, and payment integration.",
-    tags: ["React", "Node.js", "MongoDB", "Stripe"],
-    imageUrl: "/assets/images/e-commerce.jpeg",
-    projectUrl: "/projects/ecommerce",
-    githubUrl: "https://github.com/yourusername/ecommerce"
+    title: "Airbnb Clone",
+    description: "A full-stack Airbnb clone with user authentication, property listings, and booking functionality.",
+    tags: ["React", "Node.js", "Next.js", "tailwindcss"],
+    imageUrl: "/assets/images/airbnb.webp",
+    projectUrl: "https://alx-listing-app-deployed-nine-gamma.vercel.app/",
+    githubUrl: "https://github.com/ron199807/alx-listing-app-deployed"
   },
   {
     id: 3,
-    title: "Task Management App",
-    description: "A productivity application for managing tasks with drag-and-drop functionality and team collaboration.",
-    tags: ["React", "Firebase", "Redux"],
-    imageUrl: "/assets/images/task.jpeg",
-    projectUrl: "/projects/task-manager",
+    title: "e-learning Platform",
+    description: "A comprehensive e-learning platform with course management, quizzes, and progress tracking.",
+    tags: ["React","Next.js", "Django", "REST API"],
+    imageUrl: "/assets/images/btee.png",
+    projectUrl: "https://btee-lms.vercel.app/",
+    githubUrl: "https://github.com/ron199807/btee-lms",
+    backendUrl: "https://github.com/ron199807/elearning-backend",
     featured: true
   },
   {
     id: 4,
-    title: "Weather Dashboard",
-    description: "Real-time weather application with 5-day forecasts and location-based weather data.",
-    tags: ["JavaScript", "API Integration", "CSS3"],
-    imageUrl: "/assets/images/weather.jpg",
-    projectUrl: "/projects/weather-app",
-    githubUrl: "https://github.com/yourusername/weather-app"
+    title: "Movie Forest",
+    description: "A movie discovery app that allows users to search for movies, view details, and get recommendations.",
+    tags: ["typescript", "API Integration", "Tailwind CSS", "React", "Next.js"],
+    imageUrl: "/assets/images/movie.webp",
+    projectUrl: "https://the-movie-forest.vercel.app/",
+    githubUrl: "https://github.com/ron199807/the-movie-forest"
   }
 ];

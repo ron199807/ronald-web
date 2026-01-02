@@ -1,6 +1,7 @@
+// components/ProjectCard.tsx
 import { useState } from 'react';
 import Image from 'next/image';
-import { Project } from '../data/projects';
+import { Project } from '../data/projects'; // Import from data file
 import { motion, Variants } from 'framer-motion';
 import { FiExternalLink, FiGithub, FiStar } from 'react-icons/fi';
 
@@ -114,7 +115,9 @@ export default function ProjectCard({
             : "(max-width: 768px) 100vw, 33vw"
           }
           priority={index < 3}
-          onLoadingComplete={() => setImageLoaded(true)}
+          onLoad={() => setImageLoaded(true)}
+          // Add quality prop here if needed
+          // quality={90}
         />
         
         {/* Image Overlay */}
