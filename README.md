@@ -1,40 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# personal portfolio
+
+A personal portfolio built with Next.js, TypeScript, and Tailwind CSS. This repository contains the source code and configuration for a fast, accessible, and responsive personal website to showcase projects, blog posts, and contact information.
+
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Requirements](#requirements)
+- [Getting Started](#getting-started)
+- [Development](#development)
+- [Scripts](#scripts)
+- [Deployment](#deployment)
+- [Configuration](#configuration)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+
+## Features
+
+- SEO-friendly pages and metadata
+- Responsive layout with Tailwind CSS
+- Static generation (SSG) and server-side rendering (SSR) where appropriate
+- Type-safe codebase with TypeScript
+- Example pages for projects, blog, and contact
+
+## Tech Stack
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+
+## Requirements
+
+- Node.js (recommended >= 18)
+- npm or yarn
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
+
+```bash
+git clone https://github.com/ron199807/ronald-web.git
+cd ronald-web
+```
+
+2. Install dependencies:
+
+```bash
+# using npm
+npm install
+
+# or using yarn
+yarn
+```
+
+3. Run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Development
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- Follow the file structure under the `pages` (or `app` if using App Router), `components`, and `styles` directories.
+- Use TypeScript for new files and prefer functional React components.
+- Tailwind utilities are configured in `tailwind.config.js`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Common scripts included in package.json:
 
-## Learn More
+- `dev` — Run development server
+- `build` — Create an optimized production build
+- `start` — Start the production server (after build)
+- `lint` — Run linters
+- `test` — Run tests (if present)
 
-To learn more about Next.js, take a look at the following resources:
+Example:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+```bash
+npm run build
+npm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+This project works well with Vercel (recommended) or any platform that supports Next.js deployments. For Vercel, connect the repository and it will automatically detect the Next.js framework and set up builds.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Configuration
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+- Environment variables can be stored in a `.env.local` file. Include a `.env.example` with example keys.
+- Tailwind configuration is in `tailwind.config.js`.
+
+## Contributing
+
+Contributions are welcome. Please open issues for bugs or feature requests and create pull requests for changes. Follow conventional commits and run linters/tests before submitting.
+
+## License
+
+This project is licensed under the MIT License — see the LICENSE file for details.
+
+## Contact
+
+Maintainer: ron199807 (https://github.com/ron199807)
