@@ -17,6 +17,26 @@ export default function Hero() {
     setIsLoaded(true);
   }, []);
 
+  // Function to handle CV download
+  const handleDownloadCV = () => {
+    try {
+      // Create a link element
+      const link = document.createElement('a');
+      link.href = '/assets/files/Ronald_Mweema_CV.pdf'; // Updated path to files directory
+      link.download = 'Ronald_Mweema_CV.pdf'; // Specify the filename for download
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Optional: Track download event
+      console.log('CV download initiated');
+    } catch (error) {
+      console.error('Error downloading CV:', error);
+      // Fallback: Open in new tab
+      window.open('/assets/files/Ronald_Mweema_CV.pdf', '_blank');
+    }
+  };
+
   // Animation variants with proper typing
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -99,6 +119,31 @@ export default function Hero() {
     tap: { scale: 0.95 },
   };
 
+  const cvButtonVariants: Variants = {
+    hidden: { scale: 0, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        type: "spring" as const,
+        stiffness: 200,
+        damping: 15,
+        delay: 0.9,
+      } as const,
+    },
+    hover: {
+      scale: 1.05,
+      boxShadow: "0 10px 30px -10px rgba(255, 255, 255, 0.3)",
+      backgroundColor: "rgba(255, 255, 255, 0.25)",
+      transition: {
+        type: "spring" as const,
+        stiffness: 400,
+        damping: 10,
+      } as const,
+    },
+    tap: { scale: 0.95 },
+  };
+
   const backgroundVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -134,18 +179,6 @@ export default function Hero() {
     },
   };
 
-  // Separate motion props for floating elements
-  const floatingElement1 = {
-    animate: floatingAnimation,
-  };
-
-  const floatingElement2 = {
-    animate: {
-      ...floatingAnimation,
-      y: [0, 20, 0],
-    },
-  };
-
   const underlineVariants = {
     animate: {
       width: ["0%", "100%", "0%"],
@@ -169,11 +202,14 @@ export default function Hero() {
         
         {/* Floating shapes */}
         <motion.div
-          {...floatingElement1}
+          animate={floatingAnimation}
           className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-to-r from-blue-400/10 to-purple-400/10 blur-3xl"
         />
         <motion.div
-          {...floatingElement2}
+          animate={{
+            ...floatingAnimation,
+            y: [0, 20, 0],
+          }}
           className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-gradient-to-r from-pink-400/10 to-purple-400/10 blur-3xl"
         />
       </div>
@@ -253,16 +289,16 @@ export default function Hero() {
               variants={itemVariants}
               className="text-xl md:text-2xl lg:text-3xl font-light text-white/90 mb-2"
             >
-            <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-16">
-              <h1 className="text-xl md:text-6xl font-bold mb-2 from-white/70">
-                Full-Stack Developer
-              </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                Specializing in Django, React, Next.js, and React Native to build performant, scalable applications
-              </p>
+              <div className="container mx-auto max-w-6xl">
+                <div className="text-center mb-16">
+                  <h1 className="text-xl md:text-6xl font-bold mb-2 from-white/70">
+                    Full-Stack Developer
+                  </h1>
+                  <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                    Specializing in Django, React, Next.js, and React Native to build performant, scalable applications
+                  </p>
+                </div>
               </div>
-            </div>
             </motion.div>
             <motion.p
               variants={itemVariants}
@@ -276,7 +312,7 @@ export default function Hero() {
             </motion.p>
           </motion.div>
 
-          {/* Social Links - Remove hoverEffect if not supported */}
+          {/* Social Links */}
           <motion.div
             variants={itemVariants}
             className="mb-8 md:mb-12"
@@ -309,22 +345,21 @@ export default function Hero() {
               </Link>
             </motion.div>
 
+            {/* Download CV Button - UPDATED with proper handler */}
             <motion.div
-              variants={buttonVariants}
+              variants={cvButtonVariants}
               initial="hidden"
               animate="visible"
               whileHover="hover"
               whileTap="tap"
-              transition={{ delay: 0.1 }}
             >
-              <a
-                href="/resume.pdf"
-                download
-                className="group flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/20 transition-all duration-300"
+              <button
+                onClick={handleDownloadCV}
+                className="group flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/20 transition-all duration-300 w-full sm:w-auto"
               >
                 <FiDownload className="group-hover:animate-bounce" />
                 <span>Download CV</span>
-              </a>
+              </button>
             </motion.div>
           </motion.div>
 

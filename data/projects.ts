@@ -18,6 +18,16 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: 0,
+    title: "E-commerce Platform",
+    description: "A full-featured e-commerce platform with product listings, shopping cart, login, and registration.",
+    tags: ["React", "Node.js", "next.js", "tailwindcss"],
+    imageUrl: "/assets/images/fakestore.webp",
+    projectUrl: "https://fakestore-ecommerce-m2e3pt02r-ron199807s-projects.vercel.app",
+    githubUrl: "https://github.com/ron199807/fakestore-ecommerce"
+
+  },
+  {
     id: 1,
     title: "Portfolio Website",
     description: "A responsive portfolio built with Next.js and Tailwind CSS featuring dark mode and project showcase.",
