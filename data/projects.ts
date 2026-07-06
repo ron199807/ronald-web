@@ -17,8 +17,21 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-  {
+
+    {
     id: 0,
+    title: "e-learning Platform",
+    description: "A comprehensive e-learning platform with course management, quizzes, and progress tracking.",
+    tags: ["React","Next.js", "Django", "REST API"],
+    imageUrl: "/assets/images/btee22.jpg",
+    projectUrl: "https://www.btee-zm.com/courses",
+    githubUrl: "https://github.com/ron199807/btee-lms",
+    backendUrl: "https://github.com/ron199807/elearning-backend",
+    featured: true
+  },
+
+  {
+    id: 1,
     title: "E-commerce Platform",
     description: "A full-featured e-commerce platform with product listings, shopping cart, login, and registration.",
     tags: ["React", "Node.js", "next.js", "tailwindcss"],
@@ -27,8 +40,9 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/ron199807/fakestore-ecommerce"
 
   },
+
   {
-    id: 1,
+    id: 2,
     title: "Portfolio Website",
     description: "A responsive portfolio built with Next.js and Tailwind CSS featuring dark mode and project showcase.",
     tags: ["Next.js", "Tailwind CSS", "TypeScript"],
@@ -38,7 +52,7 @@ export const projects: Project[] = [
     featured: false
   },
   {
-    id: 2,
+    id: 3,
     title: "Airbnb Clone",
     description: "A full-stack Airbnb clone with user authentication, property listings, and booking functionality.",
     tags: ["React", "Node.js", "Next.js", "tailwindcss"],
@@ -46,17 +60,7 @@ export const projects: Project[] = [
     projectUrl: "https://alx-listing-app-deployed-nine-gamma.vercel.app/",
     githubUrl: "https://github.com/ron199807/alx-listing-app-deployed"
   },
-  {
-    id: 3,
-    title: "e-learning Platform",
-    description: "A comprehensive e-learning platform with course management, quizzes, and progress tracking.",
-    tags: ["React","Next.js", "Django", "REST API"],
-    imageUrl: "/assets/images/btee.png",
-    projectUrl: "https://btee-lms.vercel.app/",
-    githubUrl: "https://github.com/ron199807/btee-lms",
-    backendUrl: "https://github.com/ron199807/elearning-backend",
-    featured: true
-  },
+
   {
     id: 4,
     title: "Movie Forest",
